@@ -6,7 +6,7 @@ High-performance virtualized data grid for React, built for continuous data rend
 
 ## Status
 
-🚧 In active development
+🚧 In active development — virtualized list foundation completed
 
 ---
 
@@ -16,10 +16,10 @@ High-performance virtualized data grid for React, built for continuous data rend
 
 - [ ] Basic table rendering (rows / columns)
 - [ ] Column definition API
-- [ ] Custom cell rendering
-- [ ] Fixed row height
-- [ ] Scroll container + layout
-- [ ] Virtualized rendering (TanStack Virtual)
+- [x] Custom cell rendering
+- [x] Fixed row height
+- [x] Scroll container + layout
+- [x] Virtualized rendering (TanStack Virtual)
 
 ### UX / Interaction
 
@@ -65,10 +65,10 @@ High-performance virtualized data grid for React, built for continuous data rend
 
 ### Testing & Tooling
 
-- [ ] Unit tests (Vitest / Jest)
+- [x] Unit tests (Vitest / Jest)
 - [ ] Component tests (RTL)
-- [ ] Storybook integration
-- [ ] Example playground
+- [x] Storybook integration
+- [x] Example playground
 
 ### Documentation
 
