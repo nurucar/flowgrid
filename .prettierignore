@@ -1,0 +1,6 @@
+dist
+node_modules
+storybook-static
+pnpm-lock.yaml
+package-lock.json
+.husky/_
