@@ -14,11 +14,11 @@ createRoot(root).render(
     </p>
     <FlowGrid
       height={800}
-      rowCount={5_000}
+      data={Array.from({ length: 5_000 }, (_, i) => i)}
       estimateRowSize={36}
-      getRow={(i) => (
+      renderRow={(row, i) => (
         <div className="border-b border-zinc-100 px-2 py-1.5 text-sm text-zinc-800">
-          Row {i}
+          Row {i} (value {row})
         </div>
       )}
     />

@@ -2,17 +2,19 @@ import { useRef } from "react";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import type { FlowGridProps } from "./FlowGrid.types";
 
-export function FlowGrid({
-  "data-testid": dataTestId = "flowgrid",
-  className = "",
-  height,
-  rowCount,
-  getRow,
-  estimateRowSize = 32,
-}: FlowGridProps) {
+export function FlowGrid<TData = unknown>(props: FlowGridProps<TData>) {
+  const {
+    data,
+    renderRow,
+    estimateRowSize = 32,
+    className = "",
+    height,
+    "data-testid": dataTestId = "flowgrid",
+  } = props;
+
   const parentRef = useRef<HTMLDivElement>(null);
   const virtualizer = useVirtualizer({
-    count: rowCount,
+    count: data.length,
     getScrollElement: () => parentRef.current,
     estimateSize: () => estimateRowSize,
     overscan: 8,
@@ -36,7 +38,7 @@ export function FlowGrid({
             data-index={v.index}
             style={{ transform: `translateY(${v.start}px)` }}
           >
-            {getRow(v.index)}
+            {renderRow(data[v.index], v.index)}
           </div>
         ))}
       </div>

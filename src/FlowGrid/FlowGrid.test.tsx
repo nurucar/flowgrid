@@ -6,8 +6,8 @@ describe("FlowGrid", () => {
   it("mounts the scroll container and virtual list shell", () => {
     render(
       <FlowGrid
-        rowCount={20}
-        getRow={(i) => <span>Row {i}</span>}
+        data={Array.from({ length: 20 }, (_, i) => i)}
+        renderRow={(_, index) => <span>Row {index}</span>}
         estimateRowSize={40}
       />,
     );
