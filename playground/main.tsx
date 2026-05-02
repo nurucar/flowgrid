@@ -6,21 +6,43 @@ if (!root) {
   throw new Error("root element not found");
 }
 
+type Row = { id: number; name: string };
+
+const data: Row[] = Array.from({ length: 5_000 }, (_, i) => ({
+  id: i,
+  name: `Item ${i}`,
+}));
+
 createRoot(root).render(
   <div className="max-w-2xl space-y-4">
     <h1 className="text-xl font-semibold text-zinc-900">flowgrid</h1>
     <p className="text-sm text-zinc-600">
-      Placeholder — wire your grid and columns here.
+      Columns mode — swap{" "}
+      <code className="rounded bg-zinc-100 px-1">renderRow</code> for full
+      control when needed.
     </p>
     <FlowGrid
       height={800}
-      data={Array.from({ length: 5_000 }, (_, i) => i)}
+      data={data}
       estimateRowSize={36}
-      renderRow={(row, i) => (
-        <div className="border-b border-zinc-100 px-2 py-1.5 text-sm text-zinc-800">
-          Row {i} (value {row})
-        </div>
-      )}
+      columns={[
+        {
+          key: "id",
+          header: "ID",
+          accessor: (row) => row.id,
+          width: 88,
+        },
+        {
+          key: "name",
+          header: "Name",
+          accessor: (row) => row.name,
+          cell: (value, row, index) => (
+            <span className="text-zinc-800">
+              #{index} — {String(value)} ({row.name})
+            </span>
+          ),
+        },
+      ]}
     />
   </div>,
 );
