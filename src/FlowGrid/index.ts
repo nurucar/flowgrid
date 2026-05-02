@@ -1,2 +1,2 @@
 export { FlowGrid } from "./FlowGrid";
-export type { FlowGridProps } from "./FlowGrid.types";
+export type { FlowGridColumn, FlowGridProps } from "./FlowGrid.types";

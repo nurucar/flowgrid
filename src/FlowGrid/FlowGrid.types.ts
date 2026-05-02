@@ -1,5 +1,13 @@
 import type { ReactNode } from "react";
 
+export type FlowGridColumn<TData = unknown> = {
+  key: string;
+  header: ReactNode;
+  accessor: (row: TData) => ReactNode;
+  width?: number | string;
+  cell?: (value: ReactNode, row: TData, index: number) => ReactNode;
+};
+
 export type FlowGridProps<TData = unknown> = {
   /** Test identifier for e2e and unit tests. */
   "data-testid"?: string;
@@ -9,5 +17,8 @@ export type FlowGridProps<TData = unknown> = {
   estimateRowSize?: number;
 
   data: TData[];
-  renderRow: (row: TData, index: number) => ReactNode;
+  columns?: FlowGridColumn<TData>[];
+
+  /** Used when `columns` is missing or empty. */
+  renderRow?: (row: TData, index: number) => ReactNode;
 };
