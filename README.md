@@ -8,8 +8,8 @@ Efficiently render large datasets using virtualization instead of pagination.
 
 ## Status
 
-🚧 In active development — virtualized list foundation complete.  
-🔜 Next: `columns` API for data-driven table rendering.
+🚧 In active development — virtualized list and columns API complete.  
+🔜 Next: basic table structure and advanced grid features.
 
 ---
 
@@ -28,22 +28,17 @@ FlowGrid takes a different approach:
 
 ## What FlowGrid Is Today
 
-**A headless virtual list with complete row-level control.**
+**A headless virtual list with two rendering strategies:**
 
-You bring the data and the row template. FlowGrid handles scroll performance.
+- `renderRow` → full row-level control
+- `columns` → structured, table-like rendering
 
 ---
 
-## Example (Current API)
+## Example (renderRow)
 
 ```tsx
 import { FlowGrid } from "flowgrid";
-
-const users = [
-  { id: 1, name: "Alice", email: "alice@example.com" },
-  { id: 2, name: "Bob", email: "bob@example.com" },
-  // ... thousands more
-];
 
 function UserList() {
   return (
@@ -62,9 +57,34 @@ function UserList() {
 }
 ```
 
-> **Note:**  
-> Today, FlowGrid gives you full control over each row. You define the layout and structure.  
-> There is no built-in `<table>` yet — that's coming with the columns API.
+---
+
+## Example (columns API)
+
+```tsx
+<FlowGrid
+  data={users}
+  height={400}
+  columns={[
+    {
+      key: "id",
+      header: "ID",
+      accessor: (row) => row.id,
+      width: 80,
+    },
+    {
+      key: "name",
+      header: "Name",
+      accessor: (row) => row.name,
+    },
+    {
+      key: "email",
+      header: "Email",
+      accessor: (row) => row.email,
+    },
+  ]}
+/>
+```
 
 ---
 
@@ -77,38 +97,16 @@ for server-side and lazy-loaded data scenarios.
 
 ## What's Coming Next
 
-### 🔜 columns API (Next Feature)
+### 🔜 Next Focus
 
-The current `renderRow` approach gives maximum flexibility.  
-The upcoming columns API will add convenience for table-like data:
-
-```tsx
-// Future API — not yet available
-<FlowGrid
-  data={users}
-  height={400}
-  columns={[
-    { key: "id", header: "ID", width: 80 },
-    {
-      key: "name",
-      header: "Name",
-      cell: ({ row }) => <strong>{row.name}</strong>,
-    },
-    { key: "email", header: "Email" },
-  ]}
-/>
-```
-
-### What columns will bring:
-
-- Auto-generated `<table> / <thead> / <tbody>` structure
-- Cells mapped automatically from column definitions
-- Per-column custom renderers and styling
-- Full headless flexibility — override any part
+- Basic table structure (`thead`, `tbody`)
+- Custom header rendering
+- TypeScript generics for columns
+- Improved accessibility
 
 ### API Strategy
 
-Both APIs will coexist:
+Both APIs coexist:
 
 - `renderRow` → full control (lists, cards, custom layouts)
 - `columns` → fast setup (tables, dashboards)
@@ -133,17 +131,11 @@ Your Data → Virtualization Engine → Visible Rows → Your Custom UI
 
 - Virtualized scrolling (TanStack Virtual)
 - `renderRow` — custom row rendering
+- `columns` API — structured grid rendering
 - Fixed row height support
 - Scroll container + layout
 - Headless design (zero styling imposed)
 - Data-driven row rendering
-
-### 🔜 Next Up
-
-- columns API — data-driven table rendering
-- Basic table structure (`thead`, `tbody`)
-- Custom cell rendering per column
-- TypeScript generics for data and columns
 
 ### 📋 Planned
 
