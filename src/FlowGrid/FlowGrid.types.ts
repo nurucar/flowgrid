@@ -16,8 +16,8 @@ export type FlowGridProps<TData = unknown> = {
   height?: number | string;
   estimateRowSize?: number;
 
-  data: TData[];
-  columns?: FlowGridColumn<TData>[];
+  data: readonly TData[];
+  columns?: readonly FlowGridColumn<TData>[];
 
   /** Used when `columns` is missing or empty. */
   renderRow?: (row: TData, index: number) => ReactNode;
