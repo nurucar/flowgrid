@@ -1,3 +1,3 @@
 import "./styles/flowgrid.css";
 
-export { FlowGrid, type FlowGridProps } from "./FlowGrid";
+export { FlowGrid, type FlowGridColumn, type FlowGridProps } from "./FlowGrid";
