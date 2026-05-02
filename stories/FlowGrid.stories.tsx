@@ -2,7 +2,12 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { FlowGrid } from "../src/FlowGrid";
 import type { FlowGridProps } from "../src/FlowGrid/FlowGrid.types";
 
-type StoryRow = { id: number; label: string };
+/** Shared fixture; extra fields stay unused in focused stories. */
+type StoryRow = {
+  id: number;
+  label: string;
+  tier: "pro" | "free";
+};
 
 const meta: Meta<FlowGridProps<StoryRow>> = {
   title: "FlowGrid",
@@ -11,6 +16,7 @@ const meta: Meta<FlowGridProps<StoryRow>> = {
     data: Array.from({ length: 10_000 }, (_, i) => ({
       id: i,
       label: `Row ${i}`,
+      tier: i % 5 === 0 ? ("pro" as const) : ("free" as const),
     })),
     estimateRowSize: 32,
     height: 400,
@@ -38,8 +44,17 @@ export default meta;
 
 type Story = StoryObj<FlowGridProps<StoryRow>>;
 
-export const WithRenderRow: Story = {
+/** Custom row renderer only — no `columns`. */
+export const RenderRow: Story = {
   name: "renderRow",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Uses only `renderRow`. Each virtual row is whatever you return — full layout freedom.",
+      },
+    },
+  },
   args: {
     renderRow: (row, index) => (
       <div className="border-b border-zinc-100 px-3 py-2 font-mono text-sm text-zinc-800">
@@ -50,8 +65,17 @@ export const WithRenderRow: Story = {
   },
 };
 
+/** Minimal columns API: header + accessor only (no `cell` overrides). */
 export const ColumnsApi: Story = {
-  name: "columnsApi",
+  name: "columns API",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Declarative columns with plain `accessor` output — baseline table mapping.",
+      },
+    },
+  },
   args: {
     columns: [
       {
@@ -64,16 +88,22 @@ export const ColumnsApi: Story = {
         key: "label",
         header: "Label",
         accessor: (row) => row.label,
-        cell: (value) => (
-          <span className="font-medium text-zinc-900">{value}</span>
-        ),
       },
     ],
   },
 };
 
+/** Fixed / flexible / fixed column tracks (`width` → grid template). */
 export const ColumnWidths: Story = {
   name: "column widths",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "80px fixed ID, flexible middle column, 120px fixed trailing column.",
+      },
+    },
+  },
   args: {
     columns: [
       {
@@ -92,6 +122,53 @@ export const ColumnWidths: Story = {
         header: "Status",
         accessor: () => "Active",
         width: 120,
+      },
+    ],
+  },
+};
+
+/** `cell` overrides: typography + badge-style chips per column. */
+export const CustomCell: Story = {
+  name: "custom cell",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Uses `column.cell` to wrap accessor values — bold label + tier badge.",
+      },
+    },
+  },
+  args: {
+    columns: [
+      {
+        key: "id",
+        header: "ID",
+        accessor: (row) => row.id,
+        width: 72,
+      },
+      {
+        key: "label",
+        header: "Name",
+        accessor: (row) => row.label,
+        cell: (value) => (
+          <span className="font-semibold text-zinc-900">{value}</span>
+        ),
+      },
+      {
+        key: "tier",
+        header: "Tier",
+        accessor: (row) => row.tier,
+        cell: (value) => (
+          <span
+            className={`rounded-full px-2 py-0.5 text-xs font-medium ${
+              value === "pro"
+                ? "bg-violet-100 text-violet-800"
+                : "bg-zinc-100 text-zinc-700"
+            }`}
+          >
+            {String(value)}
+          </span>
+        ),
       },
     ],
   },
